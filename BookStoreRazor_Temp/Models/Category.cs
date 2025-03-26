@@ -16,4 +16,3 @@ namespace BookStoreRazor_Temp.Models
         public int DisplayOrder { get; set; }
     }
 }
-}
