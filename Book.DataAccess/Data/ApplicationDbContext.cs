@@ -1,9 +1,11 @@
 ﻿using Book.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Book.DataAccess.Data
 {
-    public class ApplicationDbContext : DbContext //ApplicationDbContext now inherits for the DbContext class from EnitityFrameworks
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser> //ApplicationDbContext now inherits for the DbContext class from EnitityFrameworks
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -13,12 +15,23 @@ namespace Book.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
                 new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
                 new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+                );
+
+            modelBuilder.Entity<Company>().HasData(
+                new Company { Id = 1, Name = "Tech Sol", StreetAddress = "21", City ="city place", PostCode="my home", County="here", PhoneNumber="0121" },
+                new Company { Id = 2, Name = "mech Sol", StreetAddress = "21", City = "city place", PostCode = "my home", County = "here", PhoneNumber = "0121" },
+                new Company { Id = 3, Name = "kech Sol", StreetAddress = "21", City = "city place", PostCode = "my home", County = "here", PhoneNumber = "0121" }
                 );
 
             modelBuilder.Entity<Product>().HasData(
